@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { X, Calendar, Tag as Loader2 } from 'lucide-react'
+import { X, Calendar, Tag as TagIcon } from 'lucide-react'
 import { Task, Tag } from '../../types'
 
 interface TaskModalProps {
@@ -123,10 +123,10 @@ const TaskModal = ({ isOpen, onClose, onSubmit, task, tags, isLoading = false }:
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto border border-gray-200 dark:border-gray-700">
-        <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-start justify-center z-[9999] p-4 overflow-y-auto">
+      <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-lg lg:max-w-2xl my-8 border border-gray-200 dark:border-gray-700 relative min-h-fit">
+        <div className="flex items-center justify-between p-4 lg:p-6 border-b border-gray-200 dark:border-gray-700">
+          <h2 className="text-lg lg:text-xl font-bold text-gray-900 dark:text-white">
             {task ? 'Edit Task' : 'Add New Task'}
           </h2>
           <button
@@ -137,10 +137,10 @@ const TaskModal = ({ isOpen, onClose, onSubmit, task, tags, isLoading = false }:
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-6">
+        <form onSubmit={handleSubmit} className="p-4 lg:p-6 space-y-4 lg:space-y-6">
           {/* Title */}
           <div>
-            <label htmlFor="title" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
+            <label htmlFor="title" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 lg:mb-3">
               Title *
             </label>
             <input
@@ -159,7 +159,7 @@ const TaskModal = ({ isOpen, onClose, onSubmit, task, tags, isLoading = false }:
 
           {/* Description */}
           <div>
-            <label htmlFor="description" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
+            <label htmlFor="description" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 lg:mb-3">
               Description
             </label>
             <textarea
@@ -177,9 +177,9 @@ const TaskModal = ({ isOpen, onClose, onSubmit, task, tags, isLoading = false }:
           </div>
 
           {/* Priority and Status */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label htmlFor="priority" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
+              <label htmlFor="priority" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 lg:mb-3">
                 Priority
               </label>
               <select
@@ -196,7 +196,7 @@ const TaskModal = ({ isOpen, onClose, onSubmit, task, tags, isLoading = false }:
             </div>
 
             <div>
-              <label htmlFor="status" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
+              <label htmlFor="status" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 lg:mb-3">
                 Status
               </label>
               <select
@@ -216,7 +216,7 @@ const TaskModal = ({ isOpen, onClose, onSubmit, task, tags, isLoading = false }:
 
           {/* Due Date */}
           <div>
-            <label htmlFor="dueDate" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
+            <label htmlFor="dueDate" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 lg:mb-3">
               Due Date
             </label>
             <div className="relative">
@@ -234,11 +234,11 @@ const TaskModal = ({ isOpen, onClose, onSubmit, task, tags, isLoading = false }:
 
           {/* Tags */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
+            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 lg:mb-3">
               Tags
             </label>
             {tags.length > 0 ? (
-              <div className="space-y-3 max-h-32 overflow-y-auto">
+              <div className="space-y-2 lg:space-y-3 max-h-32 overflow-y-auto">
                 {tags.map((tag) => (
                   <label key={tag.id} className="flex items-center space-x-3 cursor-pointer p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
                     <input
@@ -264,7 +264,7 @@ const TaskModal = ({ isOpen, onClose, onSubmit, task, tags, isLoading = false }:
           </div>
 
           {/* Actions */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-end space-y-3 sm:space-y-0 sm:space-x-4 pt-6 border-t border-gray-200 dark:border-gray-700">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-end space-y-3 sm:space-y-0 sm:space-x-4 pt-4 lg:pt-6 border-t border-gray-200 dark:border-gray-700">
             <button
               type="button"
               onClick={onClose}
@@ -280,7 +280,7 @@ const TaskModal = ({ isOpen, onClose, onSubmit, task, tags, isLoading = false }:
             >
               {isLoading ? (
                 <>
-                  <Loader2 className="w-5 h-5 mr-3 animate-spin" />
+                  <TagIcon className="w-5 h-5 mr-3 animate-spin" />
                   Saving...
                 </>
               ) : (
