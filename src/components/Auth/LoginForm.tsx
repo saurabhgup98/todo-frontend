@@ -6,7 +6,7 @@ interface LoginFormProps {
   onSwitchToRegister: () => void
 }
 
-const LoginForm = ({ onSwitchToRegister }: LoginFormProps) => {
+const LoginForm = ({  }: LoginFormProps) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)

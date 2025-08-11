@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { X, Calendar, Tag as TagIcon, Loader2 } from 'lucide-react'
+import { X, Calendar, Tag as Loader2 } from 'lucide-react'
 import { Task, Tag } from '../../types'
 
 interface TaskModalProps {
