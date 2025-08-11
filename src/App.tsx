@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { FilterState, Theme } from './types'
+import { FilterState, Theme, Task } from './types'
 import { getTheme, setTheme } from './utils/theme'
 import { useAuth } from './contexts/AuthContext'
 import { useTasks } from './hooks/useTasks'
@@ -14,6 +14,7 @@ import AuthPage from './components/Auth/AuthPage'
 import { Plus, Loader2 } from 'lucide-react'
 
 function App() {
+  
   const { user, isAuthenticated, isLoading: authLoading, clearAuth } = useAuth()
   const { tasks, loading: tasksLoading, error: tasksError, fetchTasks, createTask, updateTask, deleteTask, clearTasks } = useTasks(isAuthenticated)
   const { tags, error: tagsError, createTag, clearTags } = useTags(isAuthenticated)
@@ -28,6 +29,8 @@ function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false)
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false)
+  const [isEditTaskModalOpen, setIsEditTaskModalOpen] = useState(false);
+  const [editTask, setEditTask] = useState<Task | null>(null);
 
   useEffect(() => {
     setTheme(theme.mode)
@@ -112,6 +115,21 @@ function App() {
   const handleMobileFilterClick = () => {
     setIsMobileFilterOpen(true)
   }
+
+  // Handler to open edit modal from TaskCard
+  const handleOpenEditTaskModal = (task: Task) => {
+    setEditTask(task);
+    setIsEditTaskModalOpen(true);
+  };
+
+  // Handler to submit edit
+  const handleEditTaskSubmit = (taskData: Partial<Task>) => {
+    if (editTask) {
+      handleUpdateTask(editTask.id, taskData);
+      setIsEditTaskModalOpen(false);
+      setEditTask(null);
+    }
+  };
 
   // Show loading screen while checking authentication
   if (authLoading) {
@@ -216,6 +234,7 @@ function App() {
               onUpdateTask={handleUpdateTask}
               onDeleteTask={handleDeleteTask}
               tags={tags}
+              onEditTask={handleOpenEditTaskModal}
             />
           )}
         </main>
@@ -227,6 +246,14 @@ function App() {
         onSubmit={handleAddTask}
         tags={tags}
         isLoading={tasksLoading}
+      />
+
+      <TaskModal
+        isOpen={isEditTaskModalOpen}
+        onClose={() => { setIsEditTaskModalOpen(false); setEditTask(null); }}
+        task={editTask}
+        onSubmit={handleEditTaskSubmit}
+        tags={tags}
       />
 
       <MobileFilterModal

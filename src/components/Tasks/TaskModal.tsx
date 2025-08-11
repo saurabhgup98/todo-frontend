@@ -123,7 +123,7 @@ const TaskModal = ({ isOpen, onClose, onSubmit, task, tags, isLoading = false }:
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-start justify-center z-[9999] p-4 overflow-y-auto">
+    <div className="fixed inset-0 flex items-start justify-center p-4 overflow-y-auto" style={{ zIndex: 99999, background: 'rgba(255,0,0,0.2)', display: 'block' }}>
       <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-lg lg:max-w-2xl my-8 border border-gray-200 dark:border-gray-700 relative min-h-fit">
         <div className="flex items-center justify-between p-4 lg:p-6 border-b border-gray-200 dark:border-gray-700">
           <h2 className="text-lg lg:text-xl font-bold text-gray-900 dark:text-white">
