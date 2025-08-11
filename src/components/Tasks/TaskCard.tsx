@@ -109,28 +109,37 @@ const TaskCard = ({ task, onUpdate, onDelete, tags }: TaskCardProps) => {
             </button>
 
             {showMenu && (
-              <div className="absolute right-0 top-full mt-2 w-48 bg-white dark:bg-gray-800 rounded-xl shadow-soft dark:shadow-soft-dark border border-gray-200 dark:border-gray-700 z-10 overflow-hidden">
-                <button
-                  onClick={() => {
-                    setShowMenu(false)
-                    setIsEditModalOpen(true)
-                  }}
-                  className="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center transition-colors duration-200"
-                >
-                  <Edit className="w-4 h-4 mr-3" />
-                  Edit
-                </button>
-                <button
-                  onClick={() => {
-                    setShowMenu(false)
-                    onDelete(task.id)
-                  }}
-                  className="w-full text-left px-4 py-3 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center transition-colors duration-200"
-                >
-                  <Trash2 className="w-4 h-4 mr-3" />
-                  Delete
-                </button>
-              </div>
+              <>
+                {/* Backdrop to close menu when clicking outside */}
+                <div 
+                  className="fixed inset-0 z-10" 
+                  onClick={() => setShowMenu(false)}
+                />
+                
+                {/* Dropdown menu with improved positioning */}
+                <div className="absolute right-0 top-full mt-2 w-48 bg-white dark:bg-gray-800 rounded-xl shadow-soft dark:shadow-soft-dark border border-gray-200 dark:border-gray-700 z-20 overflow-hidden">
+                  <button
+                    onClick={() => {
+                      setShowMenu(false)
+                      setIsEditModalOpen(true)
+                    }}
+                    className="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center transition-colors duration-200"
+                  >
+                    <Edit className="w-4 h-4 mr-3" />
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowMenu(false)
+                      onDelete(task.id)
+                    }}
+                    className="w-full text-left px-4 py-3 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center transition-colors duration-200"
+                  >
+                    <Trash2 className="w-4 h-4 mr-3" />
+                    Delete
+                  </button>
+                </div>
+              </>
             )}
           </div>
         </div>
