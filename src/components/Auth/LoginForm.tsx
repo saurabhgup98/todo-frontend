@@ -6,7 +6,7 @@ interface LoginFormProps {
   onSwitchToRegister: () => void
 }
 
-const LoginForm = ({  }: LoginFormProps) => {
+const LoginForm = ({ onSwitchToRegister }: LoginFormProps) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
@@ -107,6 +107,18 @@ const LoginForm = ({  }: LoginFormProps) => {
           )}
         </button>
       </form>
+
+      <div className="mt-6 text-center">
+        <p className="text-sm text-gray-600 dark:text-gray-400">
+          Don't have an account?{' '}
+          <button
+            onClick={onSwitchToRegister}
+            className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 font-semibold transition-colors"
+          >
+            Sign up
+          </button>
+        </p>
+      </div>
     </div>
   )
 }
