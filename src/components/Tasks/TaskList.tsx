@@ -9,7 +9,7 @@ interface TaskListProps {
   onEditTask: (task: Task) => void
 }
 
-const TaskList = ({ tasks, onUpdateTask, onDeleteTask, tags, onEditTask }: TaskListProps) => {
+const TaskList = ({ tasks, onUpdateTask, onDeleteTask, tags }: TaskListProps) => {
   if (tasks.length === 0) {
     return (
       <div className="text-center py-12">
@@ -37,7 +37,6 @@ const TaskList = ({ tasks, onUpdateTask, onDeleteTask, tags, onEditTask }: TaskL
           onUpdate={onUpdateTask}
           onDelete={onDeleteTask}
           tags={tags}
-          onEdit={onEditTask}
         />
       ))}
     </div>
