@@ -119,6 +119,16 @@ const LoginForm = ({ onSwitchToRegister }: LoginFormProps) => {
           </button>
         </p>
       </div>
+      <a href="https://todo-backend-cff6.onrender.com/api/auth/google" className="block mt-6">
+        <button
+          type="button"
+          className="w-full flex items-center justify-center gap-3 py-3 px-4 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 shadow hover:shadow-md transition-all duration-150 font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+          style={{ letterSpacing: 0.2 }}
+        >
+          <svg width="22" height="22" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><g clipPath="url(#clip0_17_40)"><path d="M47.532 24.552c0-1.636-.147-3.2-.422-4.704H24.48v9.02h13.02c-.56 2.92-2.24 5.4-4.76 7.08v5.86h7.7c4.52-4.16 7.092-10.28 7.092-17.256z" fill="#4285F4"/><path d="M24.48 48c6.48 0 11.92-2.16 15.88-5.88l-7.7-5.86c-2.16 1.44-4.92 2.28-8.18 2.28-6.28 0-11.6-4.24-13.5-9.96H2.68v6.24C6.64 43.44 14.88 48 24.48 48z" fill="#34A853"/><path d="M10.98 28.58A14.77 14.77 0 0 1 9.36 24c0-1.6.28-3.16.78-4.58v-6.24H2.68A23.98 23.98 0 0 0 0 24c0 3.8.92 7.4 2.68 10.82l8.3-6.24z" fill="#FBBC05"/><path d="M24.48 9.52c3.54 0 6.68 1.22 9.16 3.62l6.84-6.84C36.4 2.16 30.96 0 24.48 0 14.88 0 6.64 4.56 2.68 13.18l8.3 6.24c1.9-5.72 7.22-9.9 13.5-9.9z" fill="#EA4335"/></g><defs><clipPath id="clip0_17_40"><path fill="#fff" d="M0 0h48v48H0z"/></clipPath></defs></svg>
+          <span className="text-base font-medium tracking-tight">Continue with Google</span>
+        </button>
+      </a>
     </div>
   )
 }
