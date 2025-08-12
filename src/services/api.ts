@@ -155,6 +155,11 @@ export const authAPI = {
     removeAuthToken()
   },
 
+  setToken: (token: string): void => {
+    console.log('Setting token from OAuth')
+    setAuthToken(token)
+  },
+
   getProfile: async (): Promise<{ user: AuthResponse['user'] }> => {
     console.log('Getting user profile')
     return await apiRequest<{ user: AuthResponse['user'] }>('/auth/profile')

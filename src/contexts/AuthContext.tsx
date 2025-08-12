@@ -40,6 +40,45 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   useEffect(() => {
     const initializeAuth = async () => {
       try {
+        // Check for OAuth token in URL parameters first
+        const urlParams = new URLSearchParams(window.location.search)
+        const oauthToken = urlParams.get('token')
+        const oauthUser = urlParams.get('user')
+        const oauthError = urlParams.get('error')
+        
+        if (oauthError) {
+          console.error('OAuth error:', oauthError)
+          // Clear URL parameters
+          window.history.replaceState({}, document.title, window.location.pathname)
+          setUser(null)
+          setIsLoading(false)
+          return
+        }
+        
+        if (oauthToken && oauthUser) {
+          console.log('OAuth token found in URL, processing...')
+          try {
+            // Store the token
+            authAPI.setToken(oauthToken)
+            
+            // Parse user data
+            const userData = JSON.parse(decodeURIComponent(oauthUser))
+            setUser(userData)
+            
+            // Clear URL parameters
+            window.history.replaceState({}, document.title, window.location.pathname)
+            
+            console.log('OAuth authentication successful')
+            setIsLoading(false)
+            return
+          } catch (error) {
+            console.error('Failed to process OAuth data:', error)
+            // Clear URL parameters
+            window.history.replaceState({}, document.title, window.location.pathname)
+          }
+        }
+        
+        // Check for existing token in localStorage
         const hasToken = authAPI.isAuthenticated()
         
         if (hasToken) {
