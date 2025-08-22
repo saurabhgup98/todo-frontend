@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { X, Calendar, Tag as TagIcon } from 'lucide-react'
+import { X, Calendar } from 'lucide-react'
 import { Task, Tag } from '../../types'
 import { Button, Select, Input } from '../ui'
 

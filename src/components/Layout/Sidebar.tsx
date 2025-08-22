@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Search, Plus, Sun, Moon, LogOut, ChevronLeft, ChevronRight, Filter, User, Settings } from 'lucide-react'
+import { Search, Plus, Sun, Moon, LogOut, ChevronLeft, ChevronRight, Filter } from 'lucide-react'
 import { FilterState, Tag } from '../../types'
 import clsx from 'clsx'
 import { Button, Input } from '../ui'

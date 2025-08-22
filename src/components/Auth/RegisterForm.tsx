@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { Eye, EyeOff, Loader2 } from 'lucide-react'
+import { Eye, EyeOff } from 'lucide-react'
 import { useAuth } from '../../contexts/AuthContext'
-import { Button, Input } from '../ui'
+import { Button } from '../ui'
 
 interface RegisterFormProps {
   onSwitchToLogin: () => void

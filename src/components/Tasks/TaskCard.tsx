@@ -66,14 +66,7 @@ const TaskCard = ({ task, onUpdate, onDelete, tags }: TaskCardProps) => {
     onUpdate(task.id, { priority })
   }
 
-  const getPriorityColor = (priority: Task['priority']) => {
-    const colors = {
-      HIGH: 'bg-gradient-to-r from-red-500 to-red-600 text-white',
-      MEDIUM: 'bg-gradient-to-r from-yellow-500 to-yellow-600 text-white',
-      LOW: 'bg-gradient-to-r from-green-500 to-green-600 text-white'
-    }
-    return colors[priority]
-  }
+
 
   const getStatusColor = (status: Task['status']) => {
     const colors = {
