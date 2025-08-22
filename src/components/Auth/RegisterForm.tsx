@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Eye, EyeOff, Loader2 } from 'lucide-react'
 import { useAuth } from '../../contexts/AuthContext'
+import { Button, Input } from '../ui'
 
 interface RegisterFormProps {
   onSwitchToLogin: () => void
@@ -160,20 +161,15 @@ const RegisterForm = ({ onSwitchToLogin }: RegisterFormProps) => {
           </div>
         )}
 
-        <button
+        <Button
           type="submit"
-          className="btn btn-primary w-full btn-lg shadow-lg hover:shadow-xl"
+          fullWidth
+          size="lg"
+          loading={isLoading}
           disabled={isLoading}
         >
-          {isLoading ? (
-            <>
-              <Loader2 className="w-5 h-5 mr-3 animate-spin" />
-              Creating account...
-            </>
-          ) : (
-            'Create Account'
-          )}
-        </button>
+          {isLoading ? 'Creating account...' : 'Create Account'}
+        </Button>
       </form>
 
       <div className="mt-6 text-center">

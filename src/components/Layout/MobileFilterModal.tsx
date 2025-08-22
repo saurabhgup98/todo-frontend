@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import { X, Search, Plus, Sun, Moon } from 'lucide-react'
+import { X, Search, Plus, Sun, Moon, Filter } from 'lucide-react'
 import { FilterState, Tag } from '../../types'
 import clsx from 'clsx'
+import { Button, Input } from '../ui'
 
 interface MobileFilterModalProps {
   isOpen: boolean
@@ -59,6 +60,14 @@ const MobileFilterModal = ({
     }
   }
 
+  // Count active filters
+  const activeFiltersCount = [
+    filters.search && 1,
+    filters.priority !== 'all' && 1,
+    filters.status !== 'all' && 1,
+    filters.selectedTags.length > 0 && 1
+  ].filter(Boolean).length
+
   const priorityOptions = [
     { value: 'all', label: 'All Priorities', color: 'gray' },
     { value: 'HIGH', label: 'High Priority', color: 'red' },
@@ -79,20 +88,32 @@ const MobileFilterModal = ({
   return (
     <div className="fixed inset-0 bg-gray-50 dark:bg-gray-900 z-50 lg:hidden overflow-x-hidden">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 lg:p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700">
-        <h2 className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-white truncate">
-          Filters
-        </h2>
-        <div className="flex items-center space-x-2 lg:space-x-3 flex-shrink-0">
+      <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700">
+        <div className="flex items-center space-x-3">
+          <div className="p-2 bg-primary-100 dark:bg-primary-900/30 rounded-lg">
+            <Filter className="w-6 h-6 text-primary-600 dark:text-primary-400" />
+          </div>
+          <div>
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+              Filters
+            </h2>
+            {activeFiltersCount > 0 && (
+              <p className="text-sm text-primary-600 dark:text-primary-400 font-medium">
+                {activeFiltersCount} active filters
+              </p>
+            )}
+          </div>
+        </div>
+        <div className="flex items-center space-x-3">
           {onThemeToggle && (
             <button
               onClick={onThemeToggle}
               className="p-3 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200 hover:scale-105 active:scale-95 focus-ring"
             >
               {theme === 'light' ? (
-                <Moon className="w-5 h-5 lg:w-6 lg:h-6" />
+                <Moon className="w-5 h-5" />
               ) : (
-                <Sun className="w-5 h-5 lg:w-6 lg:h-6" />
+                <Sun className="w-5 h-5" />
               )}
             </button>
           )}
@@ -100,34 +121,31 @@ const MobileFilterModal = ({
             onClick={onClose}
             className="p-3 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200 hover:scale-105 active:scale-95 focus-ring"
           >
-            <X className="w-5 h-5 lg:w-6 lg:h-6" />
+            <X className="w-5 h-5" />
           </button>
         </div>
       </div>
 
       {/* Content */}
-      <div className="flex-1 overflow-y-auto p-4 lg:p-6 space-y-6 lg:space-y-8 pb-32 overflow-x-hidden" style={{ height: 'calc(100vh - 140px)' }}>
+      <div className="flex-1 overflow-y-auto p-6 space-y-8 pb-32 custom-scrollbar" style={{ height: 'calc(100vh - 140px)' }}>
         {/* Search */}
-        <div>
-          <label className="block text-lg font-bold text-gray-700 dark:text-gray-300 mb-4">
-            Search
-          </label>
-          <div className="relative">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-            <input
-              type="text"
-              placeholder="Search tasks..."
-              value={filters.search}
-              onChange={(e) => handleSearchChange(e.target.value)}
-              className="input w-full pl-12 text-base"
-            />
-          </div>
+        <div className="space-y-3">
+          <Input
+            type="text"
+            placeholder="Search tasks..."
+            value={filters.search}
+            onChange={(e) => handleSearchChange(e.target.value)}
+            label="Search Tasks"
+            icon={<Search className="w-5 h-5" />}
+            variant="search"
+            fullWidth
+          />
         </div>
 
         {/* Priority Filter */}
-        <div>
-          <label className="block text-lg font-bold text-gray-700 dark:text-gray-300 mb-4">
-            Priority
+        <div className="space-y-4">
+          <label className="block text-lg font-bold text-gray-700 dark:text-gray-300">
+            Priority Level
           </label>
           <div className="space-y-3">
             {priorityOptions.map((option) => (
@@ -135,19 +153,19 @@ const MobileFilterModal = ({
                 key={option.value}
                 onClick={() => handlePriorityChange(option.value as FilterState['priority'])}
                 className={clsx(
-                  "w-full text-left px-6 py-4 rounded-xl text-base font-medium transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]",
+                  "w-full text-left px-6 py-4 rounded-xl text-base font-medium transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] border border-transparent",
                   filters.priority === option.value
-                    ? "bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 shadow-lg"
-                    : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                    ? "bg-gradient-to-r from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-900/30 text-primary-700 dark:text-primary-300 border-primary-200 dark:border-primary-700 shadow-lg"
+                    : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:border-gray-200 dark:hover:border-gray-600"
                 )}
               >
                 <div className="flex items-center">
                   <div className={clsx(
                     "w-4 h-4 rounded-full mr-4 shadow-sm",
-                    option.color === 'red' && "bg-red-500",
-                    option.color === 'yellow' && "bg-yellow-500",
-                    option.color === 'green' && "bg-green-500",
-                    option.color === 'gray' && "bg-gray-400"
+                    option.color === 'red' && "bg-gradient-to-r from-red-500 to-red-600",
+                    option.color === 'yellow' && "bg-gradient-to-r from-yellow-500 to-yellow-600",
+                    option.color === 'green' && "bg-gradient-to-r from-green-500 to-green-600",
+                    option.color === 'gray' && "bg-gradient-to-r from-gray-400 to-gray-500"
                   )} />
                   {option.label}
                 </div>
@@ -157,9 +175,9 @@ const MobileFilterModal = ({
         </div>
 
         {/* Status Filter */}
-        <div>
-          <label className="block text-lg font-bold text-gray-700 dark:text-gray-300 mb-4">
-            Status
+        <div className="space-y-4">
+          <label className="block text-lg font-bold text-gray-700 dark:text-gray-300">
+            Task Status
           </label>
           <div className="space-y-3">
             {statusOptions.map((option) => (
@@ -167,10 +185,10 @@ const MobileFilterModal = ({
                 key={option.value}
                 onClick={() => handleStatusChange(option.value as FilterState['status'])}
                 className={clsx(
-                  "w-full text-left px-6 py-4 rounded-xl text-base font-medium transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]",
+                  "w-full text-left px-6 py-4 rounded-xl text-base font-medium transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] border border-transparent",
                   filters.status === option.value
-                    ? "bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 shadow-lg"
-                    : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                    ? "bg-gradient-to-r from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-900/30 text-primary-700 dark:text-primary-300 border-primary-200 dark:border-primary-700 shadow-lg"
+                    : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:border-gray-200 dark:hover:border-gray-600"
                 )}
               >
                 {option.label}
@@ -180,14 +198,15 @@ const MobileFilterModal = ({
         </div>
 
         {/* Tags Filter */}
-        <div>
-          <div className="flex items-center justify-between mb-4">
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
             <label className="block text-lg font-bold text-gray-700 dark:text-gray-300">
               Tags
             </label>
             <button
               onClick={() => setShowAddTagForm(!showAddTagForm)}
               className="p-3 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 hover:scale-105 active:scale-95 focus-ring"
+              title="Add new tag"
             >
               <Plus className="w-5 h-5" />
             </button>
@@ -195,51 +214,53 @@ const MobileFilterModal = ({
 
           {/* Add Tag Form */}
           {showAddTagForm && (
-            <div className="mb-6 p-6 bg-gray-50 dark:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600">
+            <div className="p-6 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 rounded-xl border border-gray-200 dark:border-gray-600 shadow-sm">
               <div className="space-y-4">
-                <input
+                <Input
                   type="text"
-                  placeholder="Tag name"
+                  placeholder="Enter tag name"
                   value={newTagName}
                   onChange={(e) => setNewTagName(e.target.value)}
-                  className="input w-full text-base"
+                  fullWidth
                 />
                 <div className="flex items-center space-x-4">
                   <input
                     type="color"
                     value={newTagColor}
                     onChange={(e) => setNewTagColor(e.target.value)}
-                    className="w-12 h-12 rounded-lg border border-gray-300 dark:border-gray-600 cursor-pointer shadow-sm"
+                    className="w-12 h-12 rounded-lg border border-gray-300 dark:border-gray-600 cursor-pointer shadow-sm hover:shadow-md transition-shadow"
                   />
-                  <button
+                  <Button
                     onClick={handleAddTag}
                     disabled={!newTagName.trim()}
-                    className="btn btn-primary btn-lg flex-1"
+                    size="lg"
+                    className="flex-1"
                   >
                     Add Tag
-                  </button>
-                  <button
+                  </Button>
+                  <Button
                     onClick={() => setShowAddTagForm(false)}
-                    className="btn btn-secondary btn-lg"
+                    variant="secondary"
+                    size="lg"
                   >
                     Cancel
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>
           )}
           
           {tags.length > 0 ? (
-            <div className="space-y-3 max-h-64 overflow-y-auto">
+            <div className="space-y-3 max-h-64 overflow-y-auto custom-scrollbar">
               {tags.map((tag) => (
                 <button
                   key={tag.id}
                   onClick={() => handleTagToggle(tag.id)}
                   className={clsx(
-                    "w-full text-left px-6 py-4 rounded-xl text-base font-medium transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] flex items-center",
+                    "w-full text-left px-6 py-4 rounded-xl text-base font-medium transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] flex items-center border border-transparent",
                     filters.selectedTags.includes(tag.id)
-                      ? "bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 shadow-lg"
-                      : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                      ? "bg-gradient-to-r from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-900/30 text-primary-700 dark:text-primary-300 border-primary-200 dark:border-primary-700 shadow-lg"
+                      : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:border-gray-200 dark:hover:border-gray-600"
                   )}
                 >
                   <div 
@@ -251,17 +272,19 @@ const MobileFilterModal = ({
               ))}
             </div>
           ) : (
-            <p className="text-base text-gray-500 dark:text-gray-400 font-medium">
-              No tags yet. Create your first tag!
-            </p>
+            <div className="p-6 bg-gray-50 dark:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 text-center">
+              <p className="text-base text-gray-500 dark:text-gray-400 font-medium">
+                No tags yet. Create your first tag!
+              </p>
+            </div>
           )}
         </div>
       </div>
 
       {/* Apply Button */}
-      <div className="absolute bottom-0 left-0 right-0 p-4 lg:p-6 border-t border-gray-200 dark:border-gray-700 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 overflow-x-hidden">
-        <div className="flex space-x-3 lg:space-x-4">
-          <button
+      <div className="absolute bottom-0 left-0 right-0 p-6 border-t border-gray-200 dark:border-gray-700 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 overflow-x-hidden">
+        <div className="flex space-x-4">
+          <Button
             onClick={() => {
               // Clear all filters
               onFiltersChange({
@@ -275,21 +298,24 @@ const MobileFilterModal = ({
               // Close modal
               onClose()
             }}
-            className="btn btn-secondary btn-lg flex-1 text-sm lg:text-base"
+            variant="secondary"
+            size="lg"
+            className="flex-1 text-sm lg:text-base"
           >
             Clear Filters
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={() => {
               // Scroll to top of task list
               window.scrollTo({ top: 0, behavior: 'smooth' })
               // Apply filters and close modal
               onClose()
             }}
-            className="btn btn-primary btn-lg flex-1 shadow-lg hover:shadow-xl text-sm lg:text-base"
+            size="lg"
+            className="flex-1 text-sm lg:text-base"
           >
             Apply Filters
-          </button>
+          </Button>
         </div>
       </div>
     </div>

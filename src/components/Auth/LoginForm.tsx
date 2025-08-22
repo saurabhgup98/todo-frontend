@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useAuth } from '../../contexts/AuthContext'
-import { Eye, EyeOff, Loader2 } from 'lucide-react'
+import { Eye, EyeOff } from 'lucide-react'
+import { Button, Input } from '../ui'
 
 interface LoginFormProps {
   onSwitchToRegister: () => void
@@ -44,21 +45,17 @@ const LoginForm = ({ onSwitchToRegister }: LoginFormProps) => {
   return (
     <div className="w-full max-w-md mx-auto">
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div>
-          <label htmlFor="email" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
-            Email
-          </label>
-          <input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="input w-full"
-            placeholder="Enter your email"
-            required
-            disabled={isLoading}
-          />
-        </div>
+        <Input
+          id="email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          label="Email"
+          placeholder="Enter your email"
+          required
+          disabled={isLoading}
+          fullWidth
+        />
 
         <div>
           <label htmlFor="password" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
@@ -92,20 +89,15 @@ const LoginForm = ({ onSwitchToRegister }: LoginFormProps) => {
           </div>
         )}
 
-        <button
+        <Button
           type="submit"
-          className="btn btn-primary w-full btn-lg shadow-lg hover:shadow-xl"
+          fullWidth
+          size="lg"
+          loading={isLoading}
           disabled={isLoading}
         >
-          {isLoading ? (
-            <>
-              <Loader2 className="w-5 h-5 mr-3 animate-spin" />
-              Signing in...
-            </>
-          ) : (
-            'Sign In'
-          )}
-        </button>
+          {isLoading ? 'Signing in...' : 'Sign In'}
+        </Button>
       </form>
 
       <div className="mt-6 text-center">
