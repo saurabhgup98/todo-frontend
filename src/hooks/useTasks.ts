@@ -110,8 +110,19 @@ export const useTasks = (isAuthenticated: boolean = false): UseTasksReturn => {
         if (allowedFields.includes(key)) {
           const value = updates[key]
           // Only include values that match our expected types
-          if (typeof value === 'string' || Array.isArray(value) || value === undefined) {
+          if (typeof value === 'string' || value === undefined) {
             filteredUpdates[key] = value
+          } else if (Array.isArray(value)) {
+            // Handle both string[] and Tag[] arrays
+            if (key === 'tagIds' && value.length > 0 && typeof value[0] === 'string') {
+              filteredUpdates[key] = value as string[]
+            } else if (key === 'tagIds' && value.length > 0 && typeof value[0] === 'object') {
+              // Convert Tag[] to string[] by extracting IDs
+              filteredUpdates[key] = (value as Tag[]).map(tag => tag.id)
+            } else if (key !== 'tagIds') {
+              // For other array fields, assume they're string arrays
+              filteredUpdates[key] = value as string[]
+            }
           }
         }
       })
