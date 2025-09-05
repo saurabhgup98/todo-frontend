@@ -352,11 +352,11 @@ const TaskModal = ({ isOpen, onClose, onSubmit, task, tags, isLoading = false }:
           </div>
 
           {/* Actions */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-end space-y-3 sm:space-y-0 sm:space-x-4 pt-6 border-t border-gray-200 dark:border-gray-700">
+          <div className="flex flex-col sm:flex-row items-center justify-end space-y-3 sm:space-y-0 sm:space-x-4 pt-4 border-t border-gray-200 dark:border-gray-700">
             <Button
               type="button"
               variant="secondary"
-              size="lg"
+              size="md"
               onClick={handleClose}
               className="flex-1 sm:flex-none order-2 sm:order-1"
               disabled={isLoading}
@@ -365,7 +365,7 @@ const TaskModal = ({ isOpen, onClose, onSubmit, task, tags, isLoading = false }:
             </Button>
             <Button
               type="submit"
-              size="lg"
+              size="md"
               loading={isLoading}
               className="flex-1 sm:flex-none order-1 sm:order-2"
               disabled={isLoading}

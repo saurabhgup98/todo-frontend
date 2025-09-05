@@ -162,22 +162,22 @@ const TaskCard = ({ task, onUpdate, onDelete, onEdit }: TaskCardProps) => {
                   }}
                 >
                   <div className="bg-red-50 dark:bg-gray-800 rounded-xl shadow-2xl border border-red-200 dark:border-gray-700 overflow-hidden backdrop-blur-sm">
-                    <button
+                    <div
                       onClick={() => {
                         setShowMenu(false)
                         onEdit(task)
                       }}
-                      className="w-full text-left px-4 py-3 text-sm text-gray-800 dark:text-gray-300 hover:bg-red-100 dark:hover:bg-gray-700 flex items-center transition-colors duration-200 font-medium"
+                      className="w-full text-left px-4 py-3 text-sm text-gray-800 dark:text-gray-300 hover:bg-blue-100 dark:hover:bg-blue-900/20 flex items-center transition-colors duration-200 font-medium cursor-pointer"
                     >
                       <Edit className="w-4 h-4 mr-3" />
                       Edit Task
-                    </button>
+                    </div>
                     <button
                       onClick={() => {
                         setShowMenu(false)
                         onDelete(task.id)
                       }}
-                      className="w-full text-left px-4 py-3 text-sm text-red-700 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/20 flex items-center transition-colors duration-200 font-medium"
+                      className="w-full text-left px-4 py-3 text-sm text-red-700 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/20 flex items-center transition-colors duration-200 font-medium cursor-pointer"
                     >
                       <Trash2 className="w-4 h-4 mr-3" />
                       Delete Task
