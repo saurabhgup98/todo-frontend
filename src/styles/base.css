@@ -1,0 +1,16 @@
+/* Base styles for the application */
+@layer base {
+  * {
+    @apply border-gray-200 dark:border-gray-700;
+  }
+  
+  html {
+    @apply antialiased overflow-x-hidden;
+  }
+  
+  body {
+    @apply bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white overflow-x-hidden;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+}

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Search, Plus, Sun, Moon, LogOut, ChevronLeft, ChevronRight, Filter } from 'lucide-react'
+import { Search, Plus, Sun, Moon, LogOut, ChevronLeft, Filter, Menu } from 'lucide-react'
 import { FilterState, Tag } from '../../types'
 import clsx from 'clsx'
 import { Button, Input } from '../ui'
@@ -154,37 +154,22 @@ const Sidebar = ({
                 </div>
               </>
             ) : (
-              <div className="flex flex-col items-center space-y-4 w-full">
-                <div className="p-2 bg-primary-100 dark:bg-primary-900/30 rounded-lg">
-                  <Filter className="w-5 h-5 text-primary-600 dark:text-primary-400" />
-                </div>
+              <div className="flex flex-col items-center justify-center h-full space-y-6">
+                {/* Hamburger Menu Button */}
+                <button
+                  onClick={toggleMinimize}
+                  className="p-3 rounded-xl text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200 hover:scale-105 active:scale-95 focus-ring shadow-lg border border-gray-200 dark:border-gray-600"
+                  title="Expand sidebar"
+                >
+                  <Menu className="w-6 h-6" />
+                </button>
+                
+                {/* Active Filters Indicator */}
                 {activeFiltersCount > 0 && (
-                  <div className="w-6 h-6 bg-primary-500 text-white rounded-full flex items-center justify-center text-xs font-bold shadow-lg">
+                  <div className="w-8 h-8 bg-primary-500 text-white rounded-full flex items-center justify-center text-sm font-bold shadow-lg border-2 border-white dark:border-gray-800">
                     {activeFiltersCount}
                   </div>
                 )}
-                <div className="flex flex-col items-center space-y-2">
-                  {onThemeToggle && (
-                    <button
-                      onClick={onThemeToggle}
-                      className="p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200 hover:scale-105 active:scale-95 focus-ring"
-                      title={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
-                    >
-                      {theme === 'light' ? (
-                        <Moon className="w-4 h-4" />
-                      ) : (
-                        <Sun className="w-4 h-4" />
-                      )}
-                    </button>
-                  )}
-                  <button
-                    onClick={toggleMinimize}
-                    className="p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200 hover:scale-105 active:scale-95 focus-ring"
-                    title="Expand sidebar"
-                  >
-                    <ChevronRight className="w-4 h-4" />
-                  </button>
-                </div>
               </div>
             )}
           </div>
@@ -346,45 +331,26 @@ const Sidebar = ({
             </div>
           )}
 
-          {/* Logout Section - Only visible on desktop */}
-          {onLogout && user && (
+          {/* Logout Section - Only visible on desktop when expanded */}
+          {onLogout && user && !isMinimized && (
             <div className="border-t border-gray-200 dark:border-gray-700 p-4 lg:block hidden bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700">
-              {!isMinimized ? (
-                <div className="flex items-center justify-between">
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-bold text-gray-900 dark:text-white truncate">
-                      {user.name}
-                    </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 truncate font-medium">
-                      {user.email}
-                    </p>
-                  </div>
-                  <button
-                    onClick={onLogout}
-                    className="p-3 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200 hover:scale-105 active:scale-95 focus-ring ml-3"
-                    title="Logout"
-                  >
-                    <LogOut className="w-5 h-5" />
-                  </button>
+              <div className="flex items-center justify-between">
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-bold text-gray-900 dark:text-white truncate">
+                    {user.name}
+                  </p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 truncate font-medium">
+                    {user.email}
+                  </p>
                 </div>
-              ) : (
-                <div className="flex flex-col items-center space-y-3">
-                  <div className="w-10 h-10 bg-gradient-to-br from-primary-100 to-primary-200 dark:from-primary-900/30 dark:to-primary-900/50 rounded-full flex items-center justify-center shadow-lg">
-                    <span className="text-sm font-bold text-primary-600 dark:text-primary-400">
-                      {user.name.charAt(0).toUpperCase()}
-                    </span>
-                  </div>
-                  <div className="flex flex-col items-center space-y-2">
-                    <button
-                      onClick={onLogout}
-                      className="p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200 hover:scale-105 active:scale-95 focus-ring"
-                      title="Logout"
-                    >
-                      <LogOut className="w-4 h-4" />
-                    </button>
-                  </div>
-                </div>
-              )}
+                <button
+                  onClick={onLogout}
+                  className="p-3 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200 hover:scale-105 active:scale-95 focus-ring ml-3"
+                  title="Logout"
+                >
+                  <LogOut className="w-5 h-5" />
+                </button>
+              </div>
             </div>
           )}
         </div>

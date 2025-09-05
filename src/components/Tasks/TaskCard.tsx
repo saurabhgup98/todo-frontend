@@ -1,37 +1,25 @@
-import { useState, useRef, useLayoutEffect, useEffect } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { createPortal } from 'react-dom'
-import { MoreVertical, Edit, Trash2, Calendar, Tag as TagIcon, Clock, User } from 'lucide-react'
+import { MoreVertical, Edit, Trash2, Calendar, Clock, User } from 'lucide-react'
 import { Task } from '../../types'
 import { formatDate, isOverdue, getRelativeDate } from '../../utils/date'
 import clsx from 'clsx'
-import TaskModal from './TaskModal'
 import { Select } from '../ui'
 
 interface TaskCardProps {
   task: Task
   onUpdate: (id: string, updates: Partial<Task>) => void
   onDelete: (id: string) => void
-  tags: any[]
+  onEdit: (task: Task) => void
 }
 
-const TaskCard = ({ task, onUpdate, onDelete, tags }: TaskCardProps) => {
+const TaskCard = ({ task, onUpdate, onDelete, onEdit }: TaskCardProps) => {
   const [showMenu, setShowMenu] = useState(false)
-  const [isEditPopoverOpen, setIsEditPopoverOpen] = useState(false)
-  const [popoverPos, setPopoverPos] = useState<{top: number, left: number, width: number}>({top: 0, left: 0, width: 0})
   const cardRef = useRef<HTMLDivElement>(null)
   const [menuPos, setMenuPos] = useState<{top: number, left: number, width: number}>({top: 0, left: 0, width: 0})
   const menuBtnRef = useRef<HTMLButtonElement>(null)
 
-  useLayoutEffect(() => {
-    if (isEditPopoverOpen && cardRef.current) {
-      const rect = cardRef.current.getBoundingClientRect()
-      setPopoverPos({
-        top: rect.bottom + window.scrollY,
-        left: rect.left + window.scrollX,
-        width: rect.width
-      })
-    }
-  }, [isEditPopoverOpen])
+
 
   // Close menu when clicking outside
   useEffect(() => {
@@ -70,10 +58,10 @@ const TaskCard = ({ task, onUpdate, onDelete, tags }: TaskCardProps) => {
 
   const getStatusColor = (status: Task['status']) => {
     const colors = {
-      PENDING: 'bg-gradient-to-r from-gray-500 to-gray-600 text-white',
-      'IN_PROGRESS': 'bg-gradient-to-r from-blue-500 to-blue-600 text-white',
-      COMPLETED: 'bg-gradient-to-r from-green-500 to-green-600 text-white',
-      CANCELLED: 'bg-gradient-to-r from-red-500 to-red-600 text-white'
+      PENDING: 'bg-gradient-to-r from-gray-400 to-gray-500 text-white shadow-lg',
+      'IN_PROGRESS': 'bg-gradient-to-r from-blue-400 to-blue-500 text-white shadow-lg',
+      COMPLETED: 'bg-gradient-to-r from-green-400 to-green-500 text-white shadow-lg',
+      CANCELLED: 'bg-gradient-to-r from-red-400 to-red-500 text-white shadow-lg'
     }
     return colors[status]
   }
@@ -112,26 +100,34 @@ const TaskCard = ({ task, onUpdate, onDelete, tags }: TaskCardProps) => {
   }
 
   return (
-    <div ref={cardRef} className="group relative bg-white dark:bg-gray-800 rounded-xl border border-gray-300 dark:border-gray-700 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 overflow-hidden">
+    <div ref={cardRef} className="group relative bg-gradient-to-br from-red-50 to-red-100/30 dark:from-gray-800 dark:to-gray-700 rounded-xl border border-red-200/80 dark:border-gray-700 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 overflow-hidden backdrop-blur-sm">
       {/* Priority indicator bar */}
       <div className={clsx(
-        "absolute top-0 left-0 right-0 h-1",
-        task.priority === 'HIGH' && "bg-gradient-to-r from-red-500 to-red-600",
-        task.priority === 'MEDIUM' && "bg-gradient-to-r from-yellow-500 to-yellow-600",
-        task.priority === 'LOW' && "bg-gradient-to-r from-green-500 to-green-600"
+        "absolute top-0 left-0 right-0 h-1 rounded-t-xl",
+        task.priority === 'HIGH' && "bg-gradient-to-r from-red-500 via-red-600 to-red-700",
+        task.priority === 'MEDIUM' && "bg-gradient-to-r from-yellow-500 via-yellow-600 to-orange-500",
+        task.priority === 'LOW' && "bg-gradient-to-r from-green-500 via-green-600 to-emerald-600"
       )} />
       
-      <div className="p-6">
+      {/* Subtle inner glow */}
+      <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent dark:from-white/5 dark:to-transparent pointer-events-none rounded-xl" />
+      
+      <div className="relative p-6">
         {/* Header */}
         <div className="flex items-start justify-between mb-4">
           <div className="flex-1 min-w-0 pr-4">
-            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors line-clamp-2">
-              {task.title}
-            </h3>
+            <div className="flex items-center mb-2">
+              <div className="w-1.5 h-1.5 bg-gradient-to-r from-primary-500 to-primary-600 rounded-full mr-2 flex-shrink-0" />
+              <h3 className="text-lg font-bold text-gray-800 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors line-clamp-2">
+                {task.title}
+              </h3>
+            </div>
             {task.description && (
-              <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed line-clamp-3">
-                {task.description}
-              </p>
+              <div className="ml-3.5">
+                <p className="text-sm text-gray-700 dark:text-gray-400 leading-relaxed line-clamp-3 bg-white/20 dark:bg-gray-700/20 rounded-md px-3 py-2 border border-white/30 dark:border-gray-600/30">
+                  {task.description}
+                </p>
+              </div>
             )}
           </div>
 
@@ -140,7 +136,7 @@ const TaskCard = ({ task, onUpdate, onDelete, tags }: TaskCardProps) => {
             <button
               onClick={handleStatusToggle}
               className={clsx(
-                'px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 hover:scale-105 active:scale-95 shadow-sm',
+                'px-4 py-2 rounded-lg text-xs font-bold transition-all duration-200 hover:scale-105 active:scale-95 shadow-md border border-white/30 backdrop-blur-sm',
                 getStatusColor(task.status)
               )}
             >
@@ -151,7 +147,7 @@ const TaskCard = ({ task, onUpdate, onDelete, tags }: TaskCardProps) => {
               <button
                 ref={menuBtnRef}
                 onClick={handleMenuOpen}
-                className="p-2 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 hover:scale-105 active:scale-95"
+                className="p-2 rounded-lg text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-red-100 dark:hover:bg-gray-700 transition-all duration-200 hover:scale-105 active:scale-95 shadow-sm border border-white/20"
               >
                 <MoreVertical className="w-4 h-4" />
               </button>
@@ -165,13 +161,13 @@ const TaskCard = ({ task, onUpdate, onDelete, tags }: TaskCardProps) => {
                     zIndex: 10000
                   }}
                 >
-                  <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+                  <div className="bg-red-50 dark:bg-gray-800 rounded-xl shadow-2xl border border-red-200 dark:border-gray-700 overflow-hidden backdrop-blur-sm">
                     <button
                       onClick={() => {
                         setShowMenu(false)
-                        setIsEditPopoverOpen(true)
+                        onEdit(task)
                       }}
-                      className="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center transition-colors duration-200"
+                      className="w-full text-left px-4 py-3 text-sm text-gray-800 dark:text-gray-300 hover:bg-red-100 dark:hover:bg-gray-700 flex items-center transition-colors duration-200 font-medium"
                     >
                       <Edit className="w-4 h-4 mr-3" />
                       Edit Task
@@ -181,7 +177,7 @@ const TaskCard = ({ task, onUpdate, onDelete, tags }: TaskCardProps) => {
                         setShowMenu(false)
                         onDelete(task.id)
                       }}
-                      className="w-full text-left px-4 py-3 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center transition-colors duration-200"
+                      className="w-full text-left px-4 py-3 text-sm text-red-700 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/20 flex items-center transition-colors duration-200 font-medium"
                     >
                       <Trash2 className="w-4 h-4 mr-3" />
                       Delete Task
@@ -196,41 +192,59 @@ const TaskCard = ({ task, onUpdate, onDelete, tags }: TaskCardProps) => {
 
         {/* Enhanced Tags */}
         {task.tags && task.tags.length > 0 && (
-          <div className="flex items-center space-x-2 flex-wrap gap-2 mb-4">
-            {task.tags.map((tag) => (
-              <span
-                key={tag.id}
-                className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold shadow-sm transition-all duration-200 hover:scale-105 border border-white/20"
-                style={{ 
-                  backgroundColor: tag.color, 
-                  color: 'white',
-                  boxShadow: `0 2px 8px ${tag.color}40`
-                }}
-              >
-                <TagIcon className="w-3 h-3 mr-1.5" />
-                {tag.name}
-              </span>
-            ))}
+          <div className="flex items-center flex-wrap gap-2 mb-4">
+            {task.tags.map((tag) => {
+              // Enhanced color scheme for better visual appeal
+              const isPending = tag.name.toLowerCase().includes('pending')
+              const baseColor = isPending ? '#6B7280' : tag.color
+              const lighterColor = isPending ? '#F3F4F6' : `${tag.color}15`
+              const borderColor = isPending ? '#D1D5DB' : `${tag.color}40`
+              const textColor = isPending ? '#374151' : tag.color
+              const shadowColor = isPending ? '#6B728020' : `${tag.color}20`
+              
+              return (
+                <span
+                  key={tag.id}
+                  className="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 hover:scale-105 hover:shadow-md border"
+                  style={{ 
+                    backgroundColor: lighterColor,
+                    color: textColor,
+                    borderColor: borderColor,
+                    boxShadow: `0 2px 6px ${shadowColor}`,
+                    backdropFilter: 'blur(8px)'
+                  }}
+                >
+                  <div 
+                    className="w-2.5 h-2.5 rounded-full mr-2 shadow-sm border border-white/30"
+                    style={{ 
+                      backgroundColor: baseColor,
+                      boxShadow: `0 1px 3px ${baseColor}40`
+                    }}
+                  />
+                  <span className="font-semibold tracking-wide">{tag.name}</span>
+                </span>
+              )
+            })}
           </div>
         )}
 
         {/* Meta Information */}
-        <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 mb-4">
+        <div className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400 mb-4">
           <div className="flex items-center space-x-4">
             {taskDueDate && (
-              <div className="flex items-center">
-                <Calendar className="w-4 h-4 mr-2 text-gray-400" />
+              <div className="flex items-center bg-white/30 dark:bg-gray-700/30 rounded-lg px-3 py-1.5 border border-white/40 dark:border-gray-600/40">
+                <Calendar className="w-4 h-4 mr-2 text-gray-500" />
                 <span className={clsx(
-                  'font-medium',
+                  'font-medium text-sm',
                   isOverdue(taskDueDate) && 'text-red-500 dark:text-red-400'
                 )}>
                   {getRelativeDate(taskDueDate)}
                 </span>
               </div>
             )}
-            <div className="flex items-center">
-              <Clock className="w-4 h-4 mr-2 text-gray-400" />
-              <span className="font-medium">
+            <div className="flex items-center bg-white/30 dark:bg-gray-700/30 rounded-lg px-3 py-1.5 border border-white/40 dark:border-gray-600/40">
+              <Clock className="w-4 h-4 mr-2 text-gray-500" />
+              <span className="font-medium text-sm">
                 {formatDate(new Date(task.createdAt))}
               </span>
             </div>
@@ -238,9 +252,10 @@ const TaskCard = ({ task, onUpdate, onDelete, tags }: TaskCardProps) => {
         </div>
 
         {/* Priority Selector */}
-        <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-700">
-          <div className="flex items-center">
-            <span className="text-sm text-gray-500 dark:text-gray-400 font-medium mr-3">Priority:</span>
+        <div className="flex items-center justify-between pt-4 border-t border-red-200/60 dark:border-gray-700">
+          <div className="flex items-center bg-white/20 dark:bg-gray-700/20 rounded-lg px-3 py-2 border border-white/30 dark:border-gray-600/30">
+            <div className="w-1.5 h-1.5 bg-gradient-to-r from-primary-500 to-primary-600 rounded-full mr-2" />
+            <span className="text-sm text-gray-600 dark:text-gray-400 font-medium mr-3">Priority:</span>
             <Select
               options={[
                 { value: 'HIGH', label: 'High' },
@@ -250,40 +265,19 @@ const TaskCard = ({ task, onUpdate, onDelete, tags }: TaskCardProps) => {
               value={task.priority}
               onChange={(value) => handlePriorityChange(value as Task['priority'])}
               variant="priority"
-              size="sm"
-              className="w-28"
+              size="md"
+              className="w-36"
             />
           </div>
           
-          <div className="flex items-center text-xs text-gray-400">
-            <User className="w-3 h-3 mr-1" />
-            <span>Task #{task.id.slice(-6)}</span>
+          <div className="flex items-center text-xs text-gray-500 bg-white/20 dark:bg-gray-700/20 rounded-lg px-3 py-1.5 border border-white/30 dark:border-gray-600/30">
+            <User className="w-3 h-3 mr-1.5" />
+            <span className="font-medium">#{task.id.slice(-6)}</span>
           </div>
         </div>
       </div>
 
-      {/* Edit Modal Portal */}
-      {isEditPopoverOpen && typeof window !== 'undefined' && createPortal(
-        <div style={{
-          position: 'absolute',
-          top: popoverPos.top,
-          left: popoverPos.left,
-          width: popoverPos.width,
-          zIndex: 9999
-        }}>
-          <TaskModal
-            isOpen={true}
-            onClose={() => setIsEditPopoverOpen(false)}
-            task={task}
-            onSubmit={(taskData: Partial<Task>) => {
-              onUpdate(task.id, taskData)
-              setIsEditPopoverOpen(false)
-            }}
-            tags={tags}
-          />
-        </div>,
-        document.body
-      )}
+
     </div>
   )
 }

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { tasksAPI } from '../services/api'
-import { Task } from '../types'
+import { Task, Tag } from '../types'
 
 interface UseTasksReturn {
   tasks: Task[]
@@ -98,19 +98,23 @@ export const useTasks = (isAuthenticated: boolean = false): UseTasksReturn => {
     }
   }, [])
 
-  const updateTask = useCallback(async (id: string, updates: Partial<Task>) => {
+  const updateTask = useCallback(async (id: string, updates: Record<string, string | string[] | Tag[] | undefined>) => {
     setLoading(true)
     setError(null)
 
     try {
       // Filter out fields that shouldn't be sent to the backend
       const allowedFields = ['title', 'description', 'priority', 'status', 'dueDate', 'tagIds']
-      const filteredUpdates = Object.keys(updates).reduce((acc, key) => {
+      const filteredUpdates: Record<string, string | string[] | undefined> = {}
+      Object.keys(updates).forEach(key => {
         if (allowedFields.includes(key)) {
-          acc[key] = updates[key as keyof Task]
+          const value = updates[key]
+          // Only include values that match our expected types
+          if (typeof value === 'string' || Array.isArray(value) || value === undefined) {
+            filteredUpdates[key] = value
+          }
         }
-        return acc
-      }, {} as any)
+      })
 
       console.log('Updating task with filtered data:', filteredUpdates)
       const response = await tasksAPI.updateTask(id, filteredUpdates)

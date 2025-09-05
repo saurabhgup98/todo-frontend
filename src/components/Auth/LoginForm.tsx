@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useAuth } from '../../contexts/AuthContext'
+import { useAuth } from '../../hooks/useAuth'
 import { Eye, EyeOff } from 'lucide-react'
 import { Button, Input } from '../ui'
 

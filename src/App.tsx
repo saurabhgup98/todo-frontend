@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { FilterState, Theme, Task } from './types'
 import { getTheme, setTheme } from './utils/theme'
-import { useAuth } from './contexts/AuthContext'
+import { useAuth } from './hooks/useAuth'
 import { useTasks } from './hooks/useTasks'
 import { useTags } from './hooks/useTags'
 import Layout from './components/Layout/Layout'
@@ -162,7 +162,7 @@ function App() {
 
   // Show main app if authenticated
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-500 via-green-400 to-green-600 dark:from-green-500 dark:via-green-400 dark:to-green-600 transition-colors duration-200 overflow-x-hidden custom-scrollbar">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-indigo-50/50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors duration-200 overflow-x-hidden custom-scrollbar">
       {/* Mobile Header - Always visible on mobile, positioned above everything */}
       <Header 
         onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)}
@@ -190,11 +190,11 @@ function App() {
         />
         
         {/* Main Content */}
-        <main className={`flex-1 min-h-screen lg:pt-8 pt-20 overflow-x-hidden transition-all duration-300 ease-in-out ${isSidebarMinimized ? 'lg:ml-20' : 'lg:ml-72'}`}>
+        <main className={`flex-1 lg:pt-8 pt-20 overflow-x-hidden transition-all duration-300 ease-in-out ${isSidebarMinimized ? 'lg:ml-20' : 'lg:ml-72'} h-screen overflow-y-auto custom-scrollbar`}>
           {/* Content Container */}
-          <div className="w-full max-w-5xl mx-auto px-6 lg:px-8 py-3 lg:py-4">
+          <div className="w-full max-w-6xl mx-auto px-6 lg:px-8 py-4 lg:py-6 min-h-full">
             {/* Header Section */}
-            <div className="mb-4 p-4 bg-white/60 dark:bg-gray-800/60 rounded-xl border border-gray-200/50 dark:border-gray-700/50 backdrop-blur-sm shadow-sm">
+            <div className="mb-6 p-6 bg-white/80 dark:bg-gray-800/80 rounded-2xl border border-gray-200/60 dark:border-gray-700/60 backdrop-blur-md shadow-lg">
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center space-x-3">
                   <div className="p-2 bg-primary-100 dark:bg-primary-900/30 rounded-lg shadow-sm">
@@ -280,7 +280,6 @@ function App() {
                 tasks={tasks}
                 onUpdateTask={handleUpdateTask}
                 onDeleteTask={handleDeleteTask}
-                tags={tags}
                 onEditTask={handleOpenEditTaskModal}
               />
             )}

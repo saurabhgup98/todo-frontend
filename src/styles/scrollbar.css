@@ -1,0 +1,226 @@
+/* Global scrollbar styling */
+@layer base {
+  /* Firefox scrollbar */
+  html, body, div, main, section, article, aside, nav, header, footer, ul, ol, li, p, span, a, button, input, textarea, select {
+    scrollbar-width: thin;
+    scrollbar-color: #d1d5db #f3f4f6;
+  }
+
+  /* WebKit scrollbar */
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar,
+  div::-webkit-scrollbar,
+  main::-webkit-scrollbar,
+  section::-webkit-scrollbar,
+  article::-webkit-scrollbar,
+  aside::-webkit-scrollbar,
+  nav::-webkit-scrollbar,
+  header::-webkit-scrollbar,
+  footer::-webkit-scrollbar,
+  ul::-webkit-scrollbar,
+  ol::-webkit-scrollbar,
+  li::-webkit-scrollbar,
+  p::-webkit-scrollbar,
+  span::-webkit-scrollbar,
+  a::-webkit-scrollbar,
+  button::-webkit-scrollbar,
+  input::-webkit-scrollbar,
+  textarea::-webkit-scrollbar,
+  select::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  html::-webkit-scrollbar-track,
+  body::-webkit-scrollbar-track,
+  div::-webkit-scrollbar-track,
+  main::-webkit-scrollbar-track,
+  section::-webkit-scrollbar-track,
+  article::-webkit-scrollbar-track,
+  aside::-webkit-scrollbar-track,
+  nav::-webkit-scrollbar-track,
+  header::-webkit-scrollbar-track,
+  footer::-webkit-scrollbar-track,
+  ul::-webkit-scrollbar-track,
+  ol::-webkit-scrollbar-track,
+  li::-webkit-scrollbar-track,
+  p::-webkit-scrollbar-track,
+  span::-webkit-scrollbar-track,
+  a::-webkit-scrollbar-track,
+  button::-webkit-scrollbar-track,
+  input::-webkit-scrollbar-track,
+  textarea::-webkit-scrollbar-track,
+  select::-webkit-scrollbar-track {
+    background: #f3f4f6;
+    border-radius: 4px;
+  }
+
+  html::-webkit-scrollbar-thumb,
+  body::-webkit-scrollbar-thumb,
+  div::-webkit-scrollbar-thumb,
+  main::-webkit-scrollbar-thumb,
+  section::-webkit-scrollbar-thumb,
+  article::-webkit-scrollbar-thumb,
+  aside::-webkit-scrollbar-thumb,
+  nav::-webkit-scrollbar-thumb,
+  header::-webkit-scrollbar-thumb,
+  footer::-webkit-scrollbar-thumb,
+  ul::-webkit-scrollbar-thumb,
+  ol::-webkit-scrollbar-thumb,
+  li::-webkit-scrollbar-thumb,
+  p::-webkit-scrollbar-thumb,
+  span::-webkit-scrollbar-thumb,
+  a::-webkit-scrollbar-thumb,
+  button::-webkit-scrollbar-thumb,
+  input::-webkit-scrollbar-thumb,
+  textarea::-webkit-scrollbar-thumb,
+  select::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 4px;
+    border: 1px solid #f3f4f6;
+  }
+
+  html::-webkit-scrollbar-thumb:hover,
+  body::-webkit-scrollbar-thumb:hover,
+  div::-webkit-scrollbar-thumb:hover,
+  main::-webkit-scrollbar-thumb:hover,
+  section::-webkit-scrollbar-thumb:hover,
+  article::-webkit-scrollbar-thumb:hover,
+  aside::-webkit-scrollbar-thumb:hover,
+  nav::-webkit-scrollbar-thumb:hover,
+  header::-webkit-scrollbar-thumb:hover,
+  footer::-webkit-scrollbar-thumb:hover,
+  ul::-webkit-scrollbar-thumb:hover,
+  ol::-webkit-scrollbar-thumb:hover,
+  li::-webkit-scrollbar-thumb:hover,
+  p::-webkit-scrollbar-thumb:hover,
+  span::-webkit-scrollbar-thumb:hover,
+  a::-webkit-scrollbar-thumb:hover,
+  button::-webkit-scrollbar-thumb:hover,
+  input::-webkit-scrollbar-thumb:hover,
+  textarea::-webkit-scrollbar-thumb:hover,
+  select::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af;
+  }
+
+  html::-webkit-scrollbar-corner,
+  body::-webkit-scrollbar-corner,
+  div::-webkit-scrollbar-corner,
+  main::-webkit-scrollbar-corner,
+  section::-webkit-scrollbar-corner,
+  article::-webkit-scrollbar-corner,
+  aside::-webkit-scrollbar-corner,
+  nav::-webkit-scrollbar-corner,
+  header::-webkit-scrollbar-corner,
+  footer::-webkit-scrollbar-corner,
+  ul::-webkit-scrollbar-corner,
+  ol::-webkit-scrollbar-corner,
+  li::-webkit-scrollbar-corner,
+  p::-webkit-scrollbar-corner,
+  span::-webkit-scrollbar-corner,
+  a::-webkit-scrollbar-corner,
+  button::-webkit-scrollbar-corner,
+  input::-webkit-scrollbar-corner,
+  textarea::-webkit-scrollbar-corner,
+  select::-webkit-scrollbar-corner {
+    background: #f3f4f6;
+  }
+
+  /* Dark mode scrollbar */
+  .dark html, .dark body, .dark div, .dark main, .dark section, .dark article, .dark aside, .dark nav, .dark header, .dark footer, .dark ul, .dark ol, .dark li, .dark p, .dark span, .dark a, .dark button, .dark input, .dark textarea, .dark select {
+    scrollbar-color: #4b5563 #1f2937;
+  }
+
+  .dark html::-webkit-scrollbar-track,
+  .dark body::-webkit-scrollbar-track,
+  .dark div::-webkit-scrollbar-track,
+  .dark main::-webkit-scrollbar-track,
+  .dark section::-webkit-scrollbar-track,
+  .dark article::-webkit-scrollbar-track,
+  .dark aside::-webkit-scrollbar-track,
+  .dark nav::-webkit-scrollbar-track,
+  .dark header::-webkit-scrollbar-track,
+  .dark footer::-webkit-scrollbar-track,
+  .dark ul::-webkit-scrollbar-track,
+  .dark ol::-webkit-scrollbar-track,
+  .dark li::-webkit-scrollbar-track,
+  .dark p::-webkit-scrollbar-track,
+  .dark span::-webkit-scrollbar-track,
+  .dark a::-webkit-scrollbar-track,
+  .dark button::-webkit-scrollbar-track,
+  .dark input::-webkit-scrollbar-track,
+  .dark textarea::-webkit-scrollbar-track,
+  .dark select::-webkit-scrollbar-track {
+    background: #1f2937;
+  }
+
+  .dark html::-webkit-scrollbar-thumb,
+  .dark body::-webkit-scrollbar-thumb,
+  .dark div::-webkit-scrollbar-thumb,
+  .dark main::-webkit-scrollbar-thumb,
+  .dark section::-webkit-scrollbar-thumb,
+  .dark article::-webkit-scrollbar-thumb,
+  .dark aside::-webkit-scrollbar-thumb,
+  .dark nav::-webkit-scrollbar-thumb,
+  .dark header::-webkit-scrollbar-thumb,
+  .dark footer::-webkit-scrollbar-thumb,
+  .dark ul::-webkit-scrollbar-thumb,
+  .dark ol::-webkit-scrollbar-thumb,
+  .dark li::-webkit-scrollbar-thumb,
+  .dark p::-webkit-scrollbar-thumb,
+  .dark span::-webkit-scrollbar-thumb,
+  .dark a::-webkit-scrollbar-thumb,
+  .dark button::-webkit-scrollbar-thumb,
+  .dark input::-webkit-scrollbar-thumb,
+  .dark textarea::-webkit-scrollbar-thumb,
+  .dark select::-webkit-scrollbar-thumb {
+    background: #4b5563;
+    border: 1px solid #1f2937;
+  }
+
+  .dark html::-webkit-scrollbar-thumb:hover,
+  .dark body::-webkit-scrollbar-thumb:hover,
+  .dark div::-webkit-scrollbar-thumb:hover,
+  .dark main::-webkit-scrollbar-thumb:hover,
+  .dark section::-webkit-scrollbar-thumb:hover,
+  .dark article::-webkit-scrollbar-thumb:hover,
+  .dark aside::-webkit-scrollbar-thumb:hover,
+  .dark nav::-webkit-scrollbar-thumb:hover,
+  .dark header::-webkit-scrollbar-thumb:hover,
+  .dark footer::-webkit-scrollbar-thumb:hover,
+  .dark ul::-webkit-scrollbar-thumb:hover,
+  .dark ol::-webkit-scrollbar-thumb:hover,
+  .dark li::-webkit-scrollbar-thumb:hover,
+  .dark p::-webkit-scrollbar-thumb:hover,
+  .dark span::-webkit-scrollbar-thumb:hover,
+  .dark a::-webkit-scrollbar-thumb:hover,
+  .dark button::-webkit-scrollbar-thumb:hover,
+  .dark input::-webkit-scrollbar-thumb:hover,
+  .dark textarea::-webkit-scrollbar-thumb:hover,
+  .dark select::-webkit-scrollbar-thumb:hover {
+    background: #6b7280;
+  }
+
+  .dark html::-webkit-scrollbar-corner,
+  .dark body::-webkit-scrollbar-corner,
+  .dark div::-webkit-scrollbar-corner,
+  .dark main::-webkit-scrollbar-corner,
+  .dark section::-webkit-scrollbar-corner,
+  .dark article::-webkit-scrollbar-corner,
+  .dark aside::-webkit-scrollbar-corner,
+  .dark nav::-webkit-scrollbar-corner,
+  .dark header::-webkit-scrollbar-corner,
+  .dark footer::-webkit-scrollbar-corner,
+  .dark ul::-webkit-scrollbar-corner,
+  .dark ol::-webkit-scrollbar-corner,
+  .dark li::-webkit-scrollbar-corner,
+  .dark p::-webkit-scrollbar-corner,
+  .dark span::-webkit-scrollbar-corner,
+  .dark a::-webkit-scrollbar-corner,
+  .dark button::-webkit-scrollbar-corner,
+  .dark input::-webkit-scrollbar-corner,
+  .dark textarea::-webkit-scrollbar-corner,
+  .dark select::-webkit-scrollbar-corner {
+    background: #1f2937;
+  }
+}

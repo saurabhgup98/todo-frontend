@@ -1,0 +1,35 @@
+/* General component styles */
+@layer components {
+  /* Enhanced Card Styles */
+  .card {
+    @apply rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all duration-200 backdrop-blur-sm;
+  }
+
+  /* Enhanced Interactive Elements */
+  .interactive {
+    @apply transition-all duration-200 hover:scale-105 active:scale-95;
+  }
+
+  .hover-lift {
+    @apply transition-all duration-200 hover:-translate-y-1 hover:shadow-lg;
+  }
+
+  /* Glass Effect */
+  .glass {
+    @apply bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-white/20 dark:border-gray-700/20;
+  }
+
+  /* Loading Spinner */
+  .spinner {
+    @apply animate-spin rounded-full border-4 border-gray-200 dark:border-gray-700 border-t-primary-600 dark:border-t-primary-400;
+  }
+
+  .spinner-double {
+    @apply relative;
+  }
+
+  .spinner-double::after {
+    content: '';
+    @apply absolute inset-0 rounded-full border-4 border-transparent border-t-primary-400 dark:border-t-primary-600 animate-ping;
+  }
+}

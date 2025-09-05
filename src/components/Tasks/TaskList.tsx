@@ -1,15 +1,14 @@
-import { Task, Tag } from '../../types'
+import { Task } from '../../types'
 import TaskCard from './TaskCard'
 
 interface TaskListProps {
   tasks: Task[]
   onUpdateTask: (id: string, updates: Partial<Task>) => void
   onDeleteTask: (id: string) => void
-  tags: Tag[]
   onEditTask: (task: Task) => void
 }
 
-const TaskList = ({ tasks, onUpdateTask, onDeleteTask, tags }: TaskListProps) => {
+const TaskList = ({ tasks, onUpdateTask, onDeleteTask, onEditTask }: TaskListProps) => {
   if (tasks.length === 0) {
     return (
       <div className="text-center py-16">
@@ -43,7 +42,7 @@ const TaskList = ({ tasks, onUpdateTask, onDeleteTask, tags }: TaskListProps) =>
             task={task}
             onUpdate={onUpdateTask}
             onDelete={onDeleteTask}
-            tags={tags}
+            onEdit={onEditTask}
           />
         </div>
       ))}
